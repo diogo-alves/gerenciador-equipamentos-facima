@@ -1,0 +1,31 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+     <a href="../../../">{% trans "Home" %}</a> &rsaquo;
+     <a href="../../">Gerenciador </a> &rsaquo;
+     <a href="../../equipamento">Equipamentos</a> &rsaquo;
+     {% trans 'Histórico de empréstimos' %}
+</div>
+{% endblock %}
+
+{% block content %}
+
+<h1>Encontrado{{ emprestimos|pluralize }} {{ emprestimos|length }} empréstimo{{ emprestimos|pluralize }} para o equipamento {{ equipamento }}.</h1><br>
+<ul>
+    {% for emprestimo in emprestimos %}
+         <li>
+             <p><a href ="../../emprestimo/{{ emprestimo.id }}" class="viewsitelink">Empréstimo número: <b>{{ emprestimo.id }}</b></a></p>
+             <ul>
+                 Usuário: {{ emprestimo.usuario }} - {{ emprestimo.usuario.tipo }}<br>
+                 Telefone: {{ emprestimo.usuario.telefone }}<br>
+                 Data do empréstimo: {{ emprestimo.data_emprestimo|date:'d/m/Y, à\s H:m' }}<br>
+                 Responsável pelo empréstimo: {{ emprestimo.funcionario_emprestimo.first_name }} {{ emprestimo.funcionario_emprestimo.last_name }}<br>
+                 Data da devolução:{{ emprestimo.data_devolucao|date:'d/m/Y, à\s H:m' }} <br>
+                 Responsável pela devolução: {{ emprestimo.funcionario_devolucao.first_name }} {{ emprestimo.funcionario_devolucao.last_name }}<br>
+             </ul>
+         </li><br>
+    {% endfor %}
+</ul>
+{% endblock %}
