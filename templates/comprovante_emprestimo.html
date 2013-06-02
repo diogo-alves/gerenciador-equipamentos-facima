@@ -1,0 +1,142 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block extrastyle %}
+    <style type="text/css" media="print">
+        @page{
+            margin: 0;
+            padding: 0;
+        }
+        .breadcrumbs, .noprint{display: none;}
+         body {
+             margin: 0;
+             padding: 0;
+             font-size: 9px;
+             visibility:hidden;
+         }
+        #nota{font-size: 5px;}
+        .print {visibility:visible;}
+    </style>
+
+    <style type="text/css">
+        #via_inspetor{
+            padding-right:10px;
+        }
+        #via_inspetor, #via_usuario{
+            float:left;
+            width: 40%;
+        }
+        #nota{font-size: 8px;}
+        .comprovante{
+            padding: 8px;
+            border-color: #dcdcdc;
+            border-width: 1px;
+            border-style: solid;
+        }
+        #devolucao1, #devolucao2{border-top: none;}
+    </style>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="../../">{% trans "Home" %}</a> &rsaquo;
+        <a href="../../gerenciador/">Gerenciador</a> &rsaquo;
+        <a href="../../gerenciador/emprestimo"> Empréstimos</a> &rsaquo;
+        {% trans 'Comprovante de empréstimo' %}
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div id="content" class="print">
+        <div id="via_inspetor">
+            <div class="comprovante">
+                <h1>{% blocktrans %}<b>Comprovante de empréstimo</b>{% endblocktrans %}</h1> <br>
+
+                <p><b>{% blocktrans %}1ª via - Inspetor</b> - Empréstimo Nº: <b>{{ numero }}{% endblocktrans %}</b></p>
+
+
+                <p>Inspetor responsável:
+                    <b>{{ emprestimo.funcionario_emprestimo.first_name }} {{ emprestimo.funcionario_emprestimo.last_name }}</b></p>
+
+                <p>Usuário: <b>{{ emprestimo.usuario }} - {{ emprestimo.usuario.tipo }}</b><br>
+                   Telefone: <b>{{ emprestimo.usuario.telefone }}</b></p>
+
+                <p>Data do empréstimo: {{ emprestimo.data_emprestimo|date:'d/m/Y, à\s H:m' }}</p>
+
+                <p>Equipamento(s) emprestado(s):</p>
+                <ul>
+                    {% for equipamento in emprestimo.equipamento.all %}
+                        <li>{{ equipamento }}</li>
+                    {% endfor %}
+                </ul>
+
+                <p>Prazo para devolução: <b>{{ emprestimo.prazo_devolucao|date:'d/m/Y, à\s H:m' }}</b></p>
+
+                <p><sub>_______________________________________________</sub></p>
+                <p><sup>Assinatura do usuário</sup></p>
+            </div>
+
+           <div id="devolucao1" class="comprovante">
+               <p><b>Data da devolução:</b> __/__/___, às __:__</p>
+
+               <p><sub>_______________________________________________</sub></p>
+               <p><sup>Assinatura do usuário</sup></p>
+           </div>
+        </div> <!-- Fim via inspetor -->
+
+        <div id="via_usuario">
+
+            <div class="comprovante">
+                <h1>{% blocktrans %}<b>Comprovante de empréstimo</b>{% endblocktrans %}</h1><br>
+
+                <p><b>2ª via - Usuário</b> - {% blocktrans %}Empréstimo Nº: <b>{{ numero}}</b> {% endblocktrans %}</p>
+
+
+                <p>Inspetor responsável:
+                    <b>{{ emprestimo.funcionario_emprestimo.first_name }} {{ emprestimo.funcionario_emprestimo.last_name }}</b></p>
+
+                <p>Usuário: <b>{{ emprestimo.usuario }} - {{ emprestimo.usuario.tipo }}</b><br>
+                   Telefone: <b>{{ emprestimo.usuario.telefone }}</b></p>
+
+                <p>Data do empréstimo: {{ emprestimo.data_emprestimo|date:'d/m/Y, à\s H:m' }}</p>
+
+                <p>Equipamento(s) emprestado(s):</p>
+                <ul>
+                    {% for equipamento in emprestimo.equipamento.all %}
+                        <li>{{ equipamento }}</li>
+                    {% endfor %}
+                </ul>
+
+                <p>Prazo para devolução: <b>{{ emprestimo.prazo_devolucao|date:'d/m/Y, à\s H:m' }}</b></p>
+
+                <p><sub>_______________________________________________</sub></p>
+                <p><sup>Assinatura do inspetor</sup></p>
+
+            </div>
+
+            <div id="devolucao2" class="comprovante">
+                <p><b>Data da devolução:</b> __/__/___, às __:__</p>
+
+                <p><sub>_______________________________________________</sub></p>
+                <p><sup>Assinatura do inspetor</sup></p>
+
+                <p id="nota"><i>Guarde este comprovante e exija a assinatura do funcionário no momento da devolução do equipamento.
+                    Este documento comprova que você devolveu o equipamento no prazo correto. Em caso de atraso na devolução, poderão ser
+                    aplicadas penalidades.</i></p>
+            </div>
+
+        </div> <!-- Fim via usuário -->
+
+    </div> <!-- Fim comprovante -->
+
+{% endblock %}
+
+{% block footer %}
+    <div id="footer">
+        <form>
+            <div id="btn_print" class="noprint" align="center">
+                <button name="button" type="button" onClick=window.print() value="print">Imprimir comprovante</button>
+            </div>
+        </form
+    </div>
+{% endblock %}

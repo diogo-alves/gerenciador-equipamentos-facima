@@ -1,0 +1,31 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+        <a href="../../">{% trans "Home" %}</a> &rsaquo;
+        <a href="../">Gerenciador</a> &rsaquo;
+        <a href="./"> Empréstimos</a> &rsaquo;
+        {% trans 'Devolução de equipamento(s)' %}
+    </div>
+{% endblock %}
+
+{% block content %}
+    <h1>Devolver equipamento(s)?</h1>
+    {% blocktrans %}<p>Deseja fazer a devolução do(s) seguinte(s) equipamento(s)?</p>{% endblocktrans %}
+    <ul>
+        {% for equipamento in equipamentos %}
+            <li>{{ equipamento }}</li>
+        {% endfor %}
+    </ul>
+    <form action="" method="post">
+        <div>
+            {% for obj in queryset %}
+                <input type="hidden" name="{{ action_checkbox_name }}" value="{{ obj.pk }}" />
+            {% endfor %}
+            <input type="hidden" name="action" value="devolver_emprestimo" />
+            <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <input type="submit" name="post" value="{% trans "Yes" %}" />
+        </div>
+    </form>
+{% endblock %}

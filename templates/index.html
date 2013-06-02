@@ -1,0 +1,22 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+     <a href="../">{% trans "Home" %}</a> &rsaquo;
+     {% trans 'Bem vindo' %}
+</div>
+{% endblock %}
+
+{% block content %}
+    {% blocktrans %}
+        <p><h1>Bem vindo(a) ao sistema de controle de equipamentos da FACIMA</h1></p>
+    {% endblocktrans %}
+
+    <br><br>
+
+    {% blocktrans %}
+        <p><h3><a href="admin/">Ir para o painel administrativo</a></h3></p>
+    {% endblocktrans %}
+
+{% endblock %}

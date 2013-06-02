@@ -1,0 +1,14 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+    <div class="breadcrumbs">
+         <a href="/admin/">{% trans "Home" %}</a> &rsaquo;
+         {% trans 'Página não encontrada' %}
+    </div>
+{% endblock %}
+
+{% block content %}
+    <p>{% blocktrans %}A página solicitada não foi encontrada. Verifique se a URL que você digitou está correta.{% endblocktrans %}</p>
+    <p><a href="/admin/">Página Inicial</a></p>
+{% endblock %}
