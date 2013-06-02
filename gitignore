@@ -3,3 +3,6 @@
 
 #ignorando pasta criada automaticamente pelo pycharm
 .idea/*
+
+#ignorando local settings
+settings_dev.py
