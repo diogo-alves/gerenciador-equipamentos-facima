@@ -12,11 +12,11 @@
 
 {% block content %}
 
-<h1>Encontrado{{ emprestimos|pluralize }} {{ emprestimos|length }} empréstimo{{ emprestimos|pluralize }} para o equipamento {{ equipamento }}.</h1><br>
+<h1>Encontrado{{ emprestimos|pluralize }} {{ emprestimos|length }} empréstimo{{ emprestimos|pluralize }} para o equipamento: {{ equipamento }}</h1><br>
 <ul>
     {% for emprestimo in emprestimos %}
          <li>
-             <p><a href ="../../emprestimo/{{ emprestimo.id }}" class="viewsitelink">Empréstimo número: <b>{{ emprestimo.id }}</b></a></p>
+             <p><a href ="../../emprestimo/{{ emprestimo.id }}" class="viewsitelink">Empréstimo N°: <b>{{ emprestimo.id }}</b></a></p>
              <ul>
                  Usuário: {{ emprestimo.usuario }} - {{ emprestimo.usuario.tipo }}<br>
                  Telefone: {{ emprestimo.usuario.telefone }}<br>
