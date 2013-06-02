@@ -19,3 +19,11 @@ urlpatterns = patterns('',
     url(r'^admin/gerenciador/historico/usuario/(?P<pk>\d+)', buscar_historico_usuario),
     url(r'^admin/gerenciador/historico/equipamento/(?P<pk>\d+)', buscar_historico_equipamento),
 )
+
+import settings
+urlpatterns += patterns('',
+    url(r'^static/(?P<path>.*)$',
+        'django.views.static.serve', {
+            'document_root': settings.STATIC_ROOT,
+    }),
+)
