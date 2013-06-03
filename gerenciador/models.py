@@ -27,7 +27,7 @@ class Usuario(models.Model):
     )
 
     nome = models.CharField(max_length=80)
-    tipo = models.CharField(u'tipo de usuário', max_length=40, choices=TIPO_USUARIO, default=1);
+    tipo = models.CharField(u'tipo de usuário', max_length=40, choices=TIPO_USUARIO, default='professor');
     telefone = models.CharField(max_length=12)
     email = models.CharField(max_length=40)
 
@@ -60,7 +60,7 @@ class Equipamento(models.Model):
     tipo = models.IntegerField('tipo de equipamento', choices=TIPO_EQUIPAMENTO, max_length=1, default=2)
     serial = models.CharField(u'número de série', max_length=40, blank=True)
     disponivel = models.BooleanField(u'disponível', default=True)
-    estado =  models.CharField('estado do equipamento', max_length=40, choices=ESTADO_EQUIPAMENTO, default=1)
+    estado =  models.CharField('estado do equipamento', max_length=40, choices=ESTADO_EQUIPAMENTO, default='funcionando')
     observacao = models.TextField(u'Observação', max_length=300, blank=True)
 
     class Meta:
@@ -75,7 +75,7 @@ class Emprestimo(models.Model):
     equipamento = models.ManyToManyField(Equipamento, limit_choices_to = {'disponivel':True, 'estado': 'funcionando'}, verbose_name=u'equipamentos')
     funcionario_emprestimo = models.ForeignKey(User, related_name="%(class)s_emprestimo", null=True, blank=True, verbose_name=u'Inspetor')
     local_uso = models.ForeignKey(Local, verbose_name=u'Instalação')
-    data_emprestimo = models.DateTimeField(u'data de empréstimo', default=datetime.now)
+    data_emprestimo = models.DateTimeField(u'data de empréstimo', auto_now_add=True)
     prazo_devolucao = models.DateTimeField(u'prazo para devolução')
     devolvido = models.BooleanField(default=False)
     data_devolucao = models.DateTimeField(u'data da devolução', null=True)

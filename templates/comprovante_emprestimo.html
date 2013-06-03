@@ -61,7 +61,7 @@
                 <p>Usuário: <b>{{ emprestimo.usuario }} - {{ emprestimo.usuario.tipo }}</b><br>
                    Telefone: <b>{{ emprestimo.usuario.telefone }}</b></p>
 
-                <p>Data do empréstimo: {{ emprestimo.data_emprestimo|date:'d/m/Y, à\s H:m' }}</p>
+                <p>Data do empréstimo: {{ emprestimo.data_emprestimo|date:'d/m/Y, à\s H:i' }}</p>
 
                 <p>Equipamento(s) emprestado(s):</p>
                 <ul>
@@ -70,7 +70,7 @@
                     {% endfor %}
                 </ul>
 
-                <p>Prazo para devolução: <b>{{ emprestimo.prazo_devolucao|date:'d/m/Y, à\s H:m' }}</b></p>
+                <p>Prazo para devolução: <b>{{ emprestimo.prazo_devolucao|date:'d/m/Y, à\s H:i' }}</b></p>
 
                 <p><sub>_______________________________________________</sub></p>
                 <p><sup>Assinatura do usuário</sup></p>
@@ -98,7 +98,7 @@
                 <p>Usuário: <b>{{ emprestimo.usuario }} - {{ emprestimo.usuario.tipo }}</b><br>
                    Telefone: <b>{{ emprestimo.usuario.telefone }}</b></p>
 
-                <p>Data do empréstimo: {{ emprestimo.data_emprestimo|date:'d/m/Y, à\s H:m' }}</p>
+                <p>Data do empréstimo: {{ emprestimo.data_emprestimo|date:'d/m/Y, à\s H:i' }}</p>
 
                 <p>Equipamento(s) emprestado(s):</p>
                 <ul>
@@ -107,7 +107,7 @@
                     {% endfor %}
                 </ul>
 
-                <p>Prazo para devolução: <b>{{ emprestimo.prazo_devolucao|date:'d/m/Y, à\s H:m' }}</b></p>
+                <p>Prazo para devolução: <b>{{ emprestimo.prazo_devolucao|date:'d/m/Y, à\s H:i' }}</b></p>
 
                 <p><sub>_______________________________________________</sub></p>
                 <p><sup>Assinatura do inspetor</sup></p>

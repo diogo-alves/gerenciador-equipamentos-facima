@@ -24,9 +24,9 @@
                          <li><a href="../../equipamento/?numero="{{ equipamento.numero }}>{{ equipamento }}</a></li>
                      {% endfor %}
                  </ul><br>
-                 Data do empréstimo: {{ emprestimo.data_emprestimo|date:'d/m/Y, à\s H:m' }}<br>
+                 Data do empréstimo: {{ emprestimo.data_emprestimo|date:'d/m/Y, à\s H:i' }}<br>
                  Responsável pelo empréstimo: {{ emprestimo.funcionario_emprestimo.first_name }} {{ emprestimo.funcionario_emprestimo.last_name }}<br>
-                 Data da devolução:{{ emprestimo.data_devolucao|date:'d/m/Y, à\s H:m' }} <br>
+                 Data da devolução:{{ emprestimo.data_devolucao|date:'d/m/Y, à\s H:i' }} <br>
                  Responsável pela devolução: {{ emprestimo.funcionario_devolucao.first_name }} {{ emprestimo.funcionario_devolucao.last_name }}<br>
 
              </ul>

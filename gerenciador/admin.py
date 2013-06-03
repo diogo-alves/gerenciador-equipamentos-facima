@@ -4,6 +4,7 @@ from django.contrib import admin, messages
 from gerenciador.models import *
 from gerenciador.forms import UsuarioForm
 from datetime import datetime
+from django.utils.timezone import utc
 from django.shortcuts import  render_to_response
 from django.http import HttpResponseRedirect
 from django.contrib.admin import helpers
@@ -16,15 +17,14 @@ class LocalAdmin(admin.ModelAdmin):
 
 class UsuarioAdmin(admin.ModelAdmin):
     form = UsuarioForm
-    actions = ('ver_emprestimos_usuario',)
     list_display = ('nome', 'tipo', 'telefone', 'email',)
     list_display_links = list_display
     list_filter = ('tipo', )
     search_fields = ('nome','tipo')
     list_per_page = 20
+    actions = ('ver_emprestimos_usuario',)
 
-
-    def ver_emprestimos_usuario(modeladmin, request, queryset):
+    def ver_emprestimos_usuario(self, request, queryset):
         if len(queryset) > 1:
             messages.error(request, 'Selecione apenas um usuario por vez!')
         else:
@@ -35,16 +35,15 @@ class UsuarioAdmin(admin.ModelAdmin):
 
 
 class EquipamentoAdmin(admin.ModelAdmin):
-    actions = ('ver_emprestimos_equipamento',)
     fields = ('numero', 'descricao', 'tipo', 'serial', 'estado', 'disponivel', 'observacao',)
     list_display = ('numero', 'descricao', 'tipo', 'serial', 'estado', 'disponivel', 'observacao',)
     list_display_links = list_display
     list_filter = ('tipo', 'estado', 'disponivel')
     search_fields = ('numero', 'descricao', 'serial',)
     list_per_page = 20
+    actions = ('ver_emprestimos_equipamento',)
 
-
-    def ver_emprestimos_equipamento(modeladmin, request, queryset):
+    def ver_emprestimos_equipamento(self, request, queryset):
         if len(queryset) > 1:
             messages.error(request, 'Selecione apenas um equipamento por vez!')
         else:
@@ -55,15 +54,15 @@ class EquipamentoAdmin(admin.ModelAdmin):
 
 class EmprestimoAdmin(admin.ModelAdmin):
     fields = ('usuario', 'equipamento', 'local_uso', 'prazo_devolucao')
-    actions = ('devolver_emprestimo', 'gerar_comprovante')
     list_display = ('id', 'usuario', 'equipamento_emprestado', 'local_uso', 'funcionario_emprestimo', 'data_emprestimo', 'prazo_devolucao', 'devolvido', 'data_devolucao', 'funcionario_devolucao')
     list_display_links = list_display
    # list_filter = ('usuario', 'devolvido', 'data_emprestimo', 'prazo_devolucao', 'data_devolucao')
     search_fields = ('id', 'usuario',)
     filter_horizontal = ('equipamento',)
     list_per_page = 20
+    actions = ('devolver_emprestimo', 'gerar_comprovante')
 
-    def devolver_emprestimo(modeladmin, request, queryset):
+    def devolver_emprestimo(self, request, queryset):
         if len(queryset) > 1:
             messages.error(request, "Só é possível efetuar uma devolução por vez. Tente novamente!")
         elif len(Emprestimo.objects.filter(id__in = queryset).filter(devolvido = 'True')) > 0:
@@ -71,19 +70,20 @@ class EmprestimoAdmin(admin.ModelAdmin):
         else:
             if 'post' in request.POST:
                 Equipamento.objects.filter(emprestimo__in = queryset).update(disponivel = True)
-                queryset.update(devolvido='True', data_devolucao = datetime.now(), funcionario_devolucao = request.user)
+                queryset.update(devolvido='True', data_devolucao = datetime .utcnow() . replace(tzinfo = utc), funcionario_devolucao = request.user)
 
-                modeladmin.message_user(request, "Devolução realizada com sucesso!")
+                self.message_user(request, "Devolução realizada com sucesso!")
                 # Return to the list page
                 return HttpResponseRedirect(request.get_full_path())
 
-            return render_to_response('devolucao_emprestimo.html', {'equipamentos': Equipamento.objects.filter(emprestimo__in = queryset),
-                                                         'queryset': queryset, 'action_checkbox_name': helpers.ACTION_CHECKBOX_NAME,
-                                                         'csrf_token': csrf.get_token(request)})
+            return render_to_response('devolucao_emprestimo.html',
+                    {'equipamentos': Equipamento.objects.filter(emprestimo__in = queryset),
+                     'queryset': queryset, 'action_checkbox_name': helpers.ACTION_CHECKBOX_NAME,
+                     'csrf_token': csrf.get_token(request)})
 
     devolver_emprestimo.short_description = "Devolver empréstimo selecionado"
 
-    def gerar_comprovante(modeladmin, request, queryset):
+    def gerar_comprovante(self, request, queryset):
         if len(queryset) > 1:
             messages.error(request, 'Erro ao gerar o comprovante. Selecione apenas um empréstimo por vez!')
         else:
